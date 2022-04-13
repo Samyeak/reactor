@@ -2,34 +2,33 @@ import { useState } from 'react';
 import Expenses from './components/Expenses/Expenses';
 import NewExpense from './components/NewExpenses/NewExpense';
 
-function App() {
-  const defaultExpenses = [
-    {
-      id: 1,
-      title: "Toilet Paper",
-      amount: 94.12,
-      date: new Date(2020, 1, 13)
-    },
-    {
-      id: 2,
-      title: "Lunch",
-      amount: 1256.12,
-      date: new Date(2020, 1, 18)
-    },
-    {
-      id: 3,
-      title: "Pokhara Trip",
-      amount: 18000,
-      date: new Date(2020, 1, 22)
-    }
-  ];
+const defaultExpenses = [
+  {
+    id: 1,
+    title: "Toilet Paper",
+    amount: 94.12,
+    date: new Date(2020, 1, 13)
+  },
+  {
+    id: 2,
+    title: "Lunch",
+    amount: 1256.12,
+    date: new Date(2020, 1, 18)
+  },
+  {
+    id: 3,
+    title: "Pokhara Trip",
+    amount: 18000,
+    date: new Date(2020, 1, 22)
+  }
+];
 
+function App() {
   const [expenses, setExpenses] = useState(defaultExpenses);
   
-
   const addExpenseHandler = expense => {
     setExpenses(prev => {
-      return [...prev, expense];
+      return [expense, ...prev];
     });
     console.log("App.js New Expense Data", expense);
   };
