@@ -10,7 +10,6 @@ const UserList = ({ users }) => {
         <hr />
         <ul>
           {users.map((user) => (
-            <>
               <li key={user.username} className="p-1">
                 <span className="text-sm font-medium text-gray-600">
                   {user.username}
@@ -19,9 +18,8 @@ const UserList = ({ users }) => {
                   {" "}
                   ({user.age} years old)
                 </span>
-              </li>
               <hr />
-            </>
+              </li>
           ))}
         </ul>
       </Card>
