@@ -15,7 +15,6 @@ const UserList = ({ users }) => {
                   {user.username}
                 </span>
                 <span className="text-sm text-gray-600">
-                  {" "}
                   ({user.age} years old)
                 </span>
               <hr />
