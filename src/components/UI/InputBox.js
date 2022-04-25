@@ -1,9 +1,9 @@
 import React from "react";
 
-const InputBox = ({name, value, onChange}) => {
+const InputBox = ({name, value, onChange, type}) => {
   return (
     <input
-      type="text"
+      type= {type ?? "text"}
       name={name}
       value={value}
       onChange={onChange}

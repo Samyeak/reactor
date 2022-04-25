@@ -1,13 +1,12 @@
 import React from 'react'
+import Login from './components/Login/Login';
 import { User } from './components/Users/User';
 
 const App = () => {
   return (
     <>
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
-    <User/>
+    <Login/>
+    {/* <User/> */}
     </>
   )
 }
