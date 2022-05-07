@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Card from "../UI/Card";
 import ErrorModel from "../UI/ErrorModel";
 import InputBox from "../UI/InputBox";
 
@@ -59,7 +60,8 @@ const NewUser = ({ onAddUser }) => {
           onConfirm={errorHandler}
         />
       )}
-      <div className="p-6 max-w-lg mx-auto bg-white rounded-xl shadow-lg">
+      <Card>
+        <h1>Add New User</h1>
         <form onSubmit={addUserHandler}>
           <div className="grid">
             <label className="block text-sm font-medium">User Name</label>
@@ -83,7 +85,7 @@ const NewUser = ({ onAddUser }) => {
             </button>
           </div>
         </form>
-      </div>
+        </Card>
     </>
   );
 };

@@ -1,27 +1,47 @@
 import React, { useEffect, useReducer, useState } from 'react';
+import Card from '../UI/Card';
 import InputBox from '../UI/InputBox';
 
 const Login = () => {
-    const [loginDetails, setLoginDetails] = useState({email:"", password: ""});
+    // const [loginDetails, setLoginDetails] = useState({email:"", password: ""});
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isFormValid, setIsFormValid] = useState(false);
 
     const [emailState, dispatchEmail] = useReducer((lastState, action)=> {
-        return {value: "", isValid: false};
-    }, {value: "", isValid:false})
+      if(action.type === "USER_INPUT"){
+        return {value: action.value, isValid: action.value.includes('@')};
+      }
+      if(action.type === "INPUT_BLUR"){
+        return {value: lastState.value, isValid: lastState.value.includes('@')};
+      }
+      return {value: "", isValid: false};
+    }, {value: "", isValid:null});
+
+    const passwordReducer = (lastState, action) => {
+      if(action.type === "USER_INPUT"){
+        return {value: action.value, isValid: action.value.length > 3};
+      }
+      if(action.type === "INPUT_BLUR"){
+        return {value: lastState.value, isValid: lastState.value.length > 3};
+      }
+      return {value: "", isValid: false};
+    };
+
+    const [passwordState, dispatchPassword] = useReducer(passwordReducer, {value: "", isValid: null});
 
     useEffect(() => {
-        const timeoutIdentifier = setTimeout(()=> {
-            console.log("Validation");
-            setIsFormValid(loginDetails.email.includes("@") && loginDetails.password.length > 3);
-        }, 500);
-        console.log("timeoutIdentifier", timeoutIdentifier);
+      setIsFormValid(emailState.isValid && passwordState.isValid);
+        // const timeoutIdentifier = setTimeout(()=> {
+        //     console.log("Validation");
+        //     setIsFormValid(emailState.isValid && passwordState.isValid);
+        // }, 500);
+        // console.log("timeoutIdentifier", timeoutIdentifier);
 
-        return ()=> {
-            console.log("Cleanup", timeoutIdentifier);
-            clearTimeout(timeoutIdentifier);
-        }
-    }, [loginDetails])
+        // return ()=> {
+        //     console.log("Cleanup", timeoutIdentifier);
+        //     clearTimeout(timeoutIdentifier);
+        // }
+    }, [emailState.isValid, passwordState.isValid])
 
     useEffect(() => {
         const storedLoggedInInformation = localStorage.getItem("isLoggedIn");
@@ -51,9 +71,23 @@ const Login = () => {
         setIsLoggedIn(false);
     }
     const changeHandler = (event) =>  {
-        setLoginDetails((prev) => {
-            return {...prev, [event.target.name]: event.target.value};
-        })
+      if(event.target.name === "email"){
+        dispatchEmail({type: "USER_INPUT", value: event.target.value});
+      }
+      if(event.target.name === "password"){
+        dispatchPassword({type: "USER_INPUT", value: event.target.value});
+      }
+        // setLoginDetails((prev) => {
+        //     return {...prev, [event.target.name]: event.target.value};
+        // })
+    };
+
+    const validateEmailHandler = () => {
+      dispatchEmail({type: "INPUT_BLUR"});
+    };
+
+    const validatePasswordHandler = () => {
+      dispatchPassword({type: "INPUT_BLUR"});
     };
 
     if (isLoggedIn){
@@ -73,15 +107,17 @@ const Login = () => {
           onConfirm={errorHandler}
         />
       )} */}
-      <div className="p-6 max-w-lg mx-auto bg-white rounded-xl shadow-lg">
+      <Card>
         <h1 className='font-bold'>Login</h1>
         <form onSubmit={loginHandler}>
           <div className="grid">
             <label className="block text-sm font-medium">Email</label>
             <InputBox
               name="email"
-              value={loginDetails.email}
+              value={emailState.value}
               onChange={changeHandler}
+              isValid = {emailState.isValid}
+              onBlur = {validateEmailHandler}
             />
           </div>
           <div className="grid mt-2">
@@ -89,8 +125,10 @@ const Login = () => {
             <InputBox
               type="password"
               name="password"
-              value={loginDetails.password}
+              value={passwordState.value}
               onChange={changeHandler}
+              isValid = {passwordState.isValid}
+              onBlur = {validatePasswordHandler}
             />
           </div>
           <div className="mt-2">
@@ -99,7 +137,7 @@ const Login = () => {
             </button>
           </div>
         </form>
-      </div>
+      </Card>
     </>
   )
 }

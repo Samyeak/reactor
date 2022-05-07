@@ -1,12 +1,16 @@
 import React from 'react'
 import Login from './components/Login/Login';
+import Button from './components/UI/Button';
+import StyledButton from './components/UI/StyledButton';
 import { User } from './components/Users/User';
 
 const App = () => {
   return (
     <>
     <Login/>
-    {/* <User/> */}
+    <StyledButton>Button from Styled </StyledButton>
+    <Button>Button from Module</Button>
+    <User/>
     </>
   )
 }
