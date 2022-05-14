@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer, useState } from 'react';
+import AuthContext from '../../store/auth-context';
 import Card from '../UI/Card';
 import InputBox from '../UI/InputBox';
 
@@ -90,14 +91,7 @@ const Login = () => {
       dispatchPassword({type: "INPUT_BLUR"});
     };
 
-    if (isLoggedIn){
-        return (
-            <>
-        <LogoutSection/>
-        <h1>User Logged In</h1>
-    </>
-        );
-    }
+   
   return (
     <>
       {/* {error && (

@@ -1,19 +1,26 @@
-import React from 'react'
-import Login from './components/Login/Login';
-import Button from './components/UI/Button';
-import StyledButton from './components/UI/StyledButton';
-import { User } from './components/Users/User';
+import React, { useState } from "react";
+import Login from "./components/Login/Login";
+import MainHeader from "./components/MainHeader/MainHeader";
+import Button from "./components/UI/Button";
+import StyledButton from "./components/UI/StyledButton";
+import { User } from "./components/Users/User";
+import AuthContext from "./store/auth-context";
 
 const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  
   return (
     <>
-    <Login/>
-    <StyledButton>Button from Styled </StyledButton>
-    <Button>Button from Module</Button>
-    <User/>
+      <AuthContext.Provider value={{ isLoggedIn: true }}>
+        <MainHeader />
+        <Login />
+        <StyledButton>Button from Styled </StyledButton>
+        <Button>Button from Module</Button>
+        <User />
+      </AuthContext.Provider>
     </>
-  )
-}
+  );
+};
 
 export default App;
 
@@ -43,7 +50,7 @@ export default App;
 
 // function App() {
 //   const [expenses, setExpenses] = useState(defaultExpenses);
-  
+
 //   const addExpenseHandler = expense => {
 //     setExpenses(prev => {
 //       return [expense, ...prev];
